@@ -11,6 +11,17 @@ exports.handler = (event, handler, callback) => {
     // md5sum requires stdin, so this echos and pipes the value to md5sum
     // added sed to remove the trailing " -" that md5sum adds to output
     // added -n because echo includes a newline, causing md5sum to be wrong
+
+    // EDIT START
+if (!/^[a-z0-9 .-]*$/i.test(input)) {
+        console.log('Bad input for ' + input);
+        callback(null, {
+                statusCode: 400,
+                body: "Please provide only letters, numbers, periods, dashes, and spaces"
+        });
+}
+    // EDIT END
+    
     var cmd = 'echo -n "' + input + '" | md5sum | sed "s/ -//"';
 
     // execute the full command
